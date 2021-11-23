@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style> 
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+        #qrcode {
+            position: absolute;
+            top: 35%;
+        }
+        #btn{
+            position: absolute;
+            top: 80%;
+        }
+        p{
+            position: absolute;
+            top: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main">
+        <h2 id="msg">Don't press login before scan</h2>
+        <div id="qrcode"></div>
+        <button id="btn">Log in</button>
+    </div>
+</body>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script src="./bundle.js"></script>
+</html>
