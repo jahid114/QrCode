@@ -12,25 +12,33 @@ const io = require('socket.io')(server, {
 io.on('connection',(socket) => {
     console.log('A user connected');
 
-    // Send the socketId to create a data channel with it
-    io.emit('socketId',socket.id);
-
-    //join Specific data channel (Both android an web client)
-    socket.on('joinroom',(channelName) =>{
-        socket.join(channelName);
-        console.log(`${socket.id} is connected to data channel ${channelName}`);
-    });
-
+     //join Specific data channel (Both android an web client)
+	socket.on("joinroom", (arg1, arg2, callback) => {
+		console.log(arg1); // 1
+		console.log(arg2); // { name: "updated" }
+		socket.join(arg2.channel);
+		callback({
+			status: "ok"
+		});
+		});
+	
     //Android will sent the data to a specific data channel 
-    socket.on('androidMessage',(channelName,data) => {
+	socket.on("androidMessage", (arg1, arg2, callback) => {
+		console.log(arg1);
+		console.log(arg2);
         //This data will be sent to the web client connected to the data channel
-        socket.to(channelName).emit('browserMessage',data);
-    });
-
-    socket.on('disconnect',() => {
+		socket.to(arg2.channel).emit('browserMessage',arg2.name);
+		socket.to(arg2.channel).emit('browserMessage',arg2.pass);
+		callback({
+			status: "ok"
+		});
+	});
+	
+	socket.on('disconnect',() => {
         console.log('A user disconnected');
     });
+
 });
 
-const port = process.env.port || 3000;
+const port = process.env.port || 4000;
 server.listen(port, () => console.log(`Server running on port ${port}`));
